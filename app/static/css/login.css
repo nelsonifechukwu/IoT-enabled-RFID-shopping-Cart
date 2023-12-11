@@ -1,0 +1,72 @@
+body {
+  font-family: "Karla", sans-serif;
+  min-height: 100vh; }
+
+#username #password{
+  border: 2px solid #a2a2a2;
+}
+#username #password :focus{
+  border: 2px solid #000A16;
+}
+
+#form-btn{
+  background-color: #000a16;
+}
+
+#form-btn:hover{
+  background-color: #00122c;
+}
+.nav-nav{
+  z-index: 2;
+}
+
+
+  .alert_red {
+	background-color: #d40000; /* Red */
+	color: white;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 999; /* Make sure the floating container is on top of the other elements */
+	padding: 15px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.3);
+	font-size: 0.9em;
+  }
+
+  .alert_green {
+    background-color: #03ca0d; /* Red */
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999; /* Make sure the floating container is on top of the other elements */
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    font-size: 0.9em;
+    }
+ 
+  /* The close button */
+.closebtn {
+	margin-left: 15px;
+	color: white;
+	font-weight: bold;
+	float: right;
+	font-size: 22px;
+	line-height: 20px;
+	cursor: pointer;
+	transition: 0.3s;
+  }
+  
+  /* When moving the mouse over the close button */
+  .closebtn:hover {
+	color: black;
+  }
+
+.form-group{
+  display: flexbox;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
