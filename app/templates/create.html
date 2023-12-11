@@ -1,0 +1,159 @@
+   <html>
+   <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link
+      href="{{ url_for('static', filename= 'css/style.css') }}"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    /> -->
+    <link rel="stylesheet" href="../static/css/login.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+    <title>SMART RFID SHOPPING ADMIN DASHBOARD.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+<body class="bg-gray-100" >
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <div class="alert_red">
+          <!-- <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> -->
+          {{ message }}
+        </div>
+        <script>
+          // Fade out the alert box after 3 seconds
+          setTimeout(function() {
+            var alertBox = document.querySelector('.alert_red');
+            alertBox.style.opacity = '0';
+            alertBox.style.transition = 'opacity 1s ease-in-out';
+            setTimeout(function() {
+              alertBox.remove();
+            }, 1000);
+          }, 800);
+        </script>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+<style>
+  .-z-1 {
+    z-index: -1;
+  }
+
+  .origin-0 {
+    transform-origin: 0%;
+  }
+
+  input:focus ~ label,
+  input:not(:placeholder-shown) ~ label,
+  textarea:focus ~ label,
+  textarea:not(:placeholder-shown) ~ label,
+  select:focus ~ label,
+  select:not([value='']):valid ~ label {
+    /* @apply transform; scale-75; -translate-y-6; */
+    --tw-translate-x: 0;
+    --tw-translate-y: 0;
+    --tw-rotate: 0;
+    --tw-skew-x: 0;
+    --tw-skew-y: 0;
+    transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate))
+      skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    --tw-scale-x: 0.75;
+    --tw-scale-y: 0.75;
+    --tw-translate-y: -1.5rem;
+  }
+
+  input:focus ~ label,
+  select:focus ~ label {
+    /* @apply text-black; left-0; */
+    --tw-text-opacity: 1;
+    color: rgba(0, 0, 0, var(--tw-text-opacity));
+    left: 0px;
+  }
+</style>
+<header>
+  <nav class="nav-nav flex justify-between bg-gray-900 text-white w-screen fixed top-0 left-0 right-0">
+  <div class="px-5 xl:px-12 py-6 flex w-full items-center">
+    <a class="text-3xl font-bold font-heading" href="#">
+      Admin Dashboard.
+    </a>
+    <div class="right-0 fixed pr-5 pt-2">
+      <form action="/logout" method="post">
+        <button class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-lg font-medium rounded-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          Logout
+          </button>
+      </form>
+    </div>
+  </div>
+  </nav>      
+</header>
+<div class="min-h-screen p-0 sm:p-12 mt-24">
+  <div class="mx-auto max-w-md px-6 py-4 bg-white border-0 shadow-lg sm:rounded-3xl">
+    <h1 class="text-2xl font-bold mb-8">Register RFID tags</h1>
+    <form id="form" method="post" action="/add">
+      <div class="relative z-0 w-full mb-5">
+        <input
+          type="text"
+          name="tag_id"
+          placeholder=" "
+          value="{{ request.form['tag_id'] }}"
+          required
+          class="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
+        />
+        <label for="tag_id" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Enter TAG-ID</label>
+        <span class="text-sm text-red-600 hidden" id="error">TAG-ID is required</span>
+      </div>
+      <div class="relative z-0 w-full mb-5">
+        <input
+          type="text"
+          name="name"
+          placeholder=" "
+          value="{{ request.form['name'] }}"
+          class="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
+        />
+        <label for="name" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Enter Product Name</label>
+        <span class="text-sm text-red-600 hidden" id="error">Product Name is required</span>
+      </div> 
+      <button
+        id="form-btn"
+        type="submit"
+        class="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none hover:shadow-lg focus:outline-none"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  'use strict'
+
+  document.getElementById('form-btn').addEventListener('click', toggleError)
+  const errMessages = document.querySelectorAll('#error')
+
+  function toggleError() {
+    // Show error message
+    errMessages.forEach((el) => {
+      el.classList.toggle('hidden')
+    })
+
+    // Highlight input and label with red
+    const allBorders = document.querySelectorAll('.border-gray-200')
+    const allTexts = document.querySelectorAll('.text-gray-500')
+    allBorders.forEach((el) => {
+      el.classList.toggle('border-red-600')
+    })
+    allTexts.forEach((el) => {
+      el.classList.toggle('text-red-600')
+    })
+  }
+</script>
+</body>
+</html>
